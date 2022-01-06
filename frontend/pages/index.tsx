@@ -1,31 +1,59 @@
 
 import { useQuery } from '@apollo/client';
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
+
+interface Iquery {
+  gender: string,
+  age: number,
+  occupation: string,
+  time_from: string,
+  time_to: string,
+  detail: string,
+  location_type: string,
+  location_name: string,
+}
 
 export default function Home() {
-  const [query, setQuery] = useState({
+  const [isRequired, setIsRequired] = useState(false);
+  const [query, setQuery] = useState<Iquery>({
       gender: "",
-      age: "",
+      age: 0,
       occupation: "",
-      from: "",
-      to: "",
+      time_from: "",
+      time_to: "",
       detail: "",
       location_type: "",
       location_name: "",
   });
 
   const handleSubmit = (e) => {
-   console.log('query==> ', query);
+    e.preventDefault();
+    alert(`query==> ${JSON.stringify(query)}`);
   }
 
   const handleChange = () => (e) => {
     const name = e.target.name;
     const value = e.target.value;
-    setQuery((prevState) => ({
+    setQuery((prevState: any) => ({
         ...prevState,
         [name]: value
     }));
-};
+  };
+  
+  useEffect(() => {
+    if (query.age === 0) {
+      setQuery((prevState: any) => ({
+        ...prevState,
+        ['age']: ""
+      }));
+    }
+    
+    if (query.location_type == "Indoor" || query.location_type == "Outdoor") {
+      setIsRequired(true);
+    } else {
+      setIsRequired(false);
+    }
+  }); 
 
 
   // if all good return data
@@ -40,7 +68,7 @@ export default function Home() {
           <div className="md:w-1/3 lg:w-2/6 p-4">
             <p className="mb-2">Gender</p>
             <select className="w-full" name="gender" value={query.gender} onChange={handleChange()}>
-              <option disabled>--- Select Option ---</option>
+              <option disabled value="">--- Select Option ---</option>
               <option value="Female">Female</option>
               <option value="Male">Male</option>
               <option value="Other">Other</option>
@@ -67,11 +95,11 @@ export default function Home() {
               <div className="flex flex-row flex-wrap">
                 <div className="w-2/3 px-4 py-2">
                   <p className="mb-2">From</p>
-                  <input type="datetime-local" className="w-full" name="from" value={query.from} onChange={handleChange()}/>
+                  <input type="date" className="w-full" name="time_from" value={query.time_from} onChange={handleChange()}/>
                 </div>
                 <div className="w-1/3 px-4 py-2">
                   <p className="mb-2">To</p>
-                  <input type="time" className="w-full" name="to" value={query.to} onChange={handleChange()}/>
+                  <input type="time" className="w-full" name="time_to" value={query.time_to} onChange={handleChange()}/>
                 </div>
                 <div className="w-full px-4 py-2">
                   <p className="mb-2">Detail</p>
@@ -80,13 +108,16 @@ export default function Home() {
                 <div className="w-1/3 px-4 py-2">
                   <p className="mb-2">Location Type</p>
                   <select className="w-full" name="location_type" value={query.location_type} onChange={handleChange()}>
+                    <option disabled value="">--- Select Location Type ---</option>
                     <option value="Indoor">Indoor</option>
                     <option value="Outdoor">Outdoor</option>
+                    <option value="Home">Home</option>
+                    <option value="Travelling">Travelling</option>
                   </select>
                 </div>
                 <div className="w-2/3 px-4 py-2">
                   <p className="mb-2">Location Name</p>
-                  <input type="text" className="w-full" name="location_name" value={query.location_name} onChange={handleChange()}/>
+                  <input type="text" className="w-full" name="location_name" value={query.location_name} onChange={handleChange()} required={isRequired}/>
                 </div>
                 <button type="submit" className="w-full text-center bg-amber-400 m-4 p-2">+ Add Entry</button>
               </div>
