@@ -1,0 +1,65 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Covid {
+  _id: String!
+  age: Float!
+  gender: String!
+  occupation: String!
+  timelines: [Timelines!]!
+  visited: [String!]!
+}
+
+input CreateCovidInput {
+  age: Float!
+  gender: String!
+  occupation: String!
+  timelines: [TimelinesInput!]!
+  visited: [String!]!
+}
+
+type Information {
+  detail: String!
+  location_name: String!
+  location_type: String!
+  time_from: String!
+  time_to: String!
+}
+
+input InformationInput {
+  detail: String!
+  location_name: String!
+  location_type: String!
+  time_from: String!
+  time_to: String!
+}
+
+type Mutation {
+  createCovid(payload: CreateCovidInput!): Covid!
+  deleteCovid(_id: String!): Covid!
+  updateCovid(payload: UpdateCovidInput!): Covid!
+}
+
+type Query {
+  covid(_id: String!): Covid!
+}
+
+type Timelines {
+  date: String!
+  information: [Information!]!
+}
+
+input TimelinesInput {
+  date: String!
+  information: [InformationInput!]!
+}
+
+input UpdateCovidInput {
+  _id: String!
+  age: Float!
+  gender: String!
+  occupation: String!
+  timelines: [TimelinesInput!]!
+  visited: [String!]!
+}
