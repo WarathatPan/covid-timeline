@@ -127,7 +127,7 @@ export default function Home() {
   }
   
   const handleSubmit = (e) => {
-    e.preventDefault();
+    // e.preventDefault();
     const datetime = moment(new Date(covid?.time_from)).format('DD/MM/YYYY HH:mm').split(" ");
     const date = datetime[0];
     const time_from = datetime[1];
@@ -144,6 +144,7 @@ export default function Home() {
     if (data?.covid) {
       const d = JSON.parse(JSON.stringify(data.covid)) || '';
       timelines = JSON.parse(JSON.stringify(d?.timelines));
+      let check_dup = false;
       for (let i = 0; i < d?.timelines.length; i++) {
         const element = d?.timelines[i];
         // console.log('element==>', element);
@@ -165,12 +166,14 @@ export default function Home() {
               } else {
                 if (timelines[i]['information'].at(-1) != information && !check_push && !check_overlap) {
                   check_push = true;
+                  check_dup = true;
                   timelines[i].information = [...timelines[i].information, information];
                 }
               }
             delete timelines[i]['information'][j]['__typename'];
           }
-        } else {
+        } else if (!check_dup) {
+          check_dup = true;
           timelines = [...timelines, {
             "date": date,
             "information": [information]
