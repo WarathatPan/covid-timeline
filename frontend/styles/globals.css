@@ -1,13 +1,23 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+:root {
+  --background: #012d5e;
+  --font-color: #ffffff;
+  --blue: #5882E3;
+  --light-blue: #254870;
+  --yellow: #ffc107;
+  --red: #dc3545;
+  --white: #fff;
+}
 
 html,
 body {
   padding: 0;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  font-family: Roboto-Slab;
+  background-color: var(--background);
+  color: var(--font-color);
 }
 
 a {
@@ -17,4 +27,29 @@ a {
 
 * {
   box-sizing: border-box;
+}
+
+.border-r-dotted {
+  border-right: 1px dotted;
+  border-style: dotted;
+}
+.border-blue {
+  border-color: var(--blue);
+}
+
+.fs-yellow {
+  color: var(--yellow) !important;
+}
+.fs-bg-color {
+  color: var(--background) !important;
+}
+.fs-blue {
+  color: var(--blue) !important;
+}
+
+.bg-yellow {
+  background-color: var(--yellow) !important;
+}
+.bg-light-blue {
+  background-color: var(--light-blue) !important;
 }
