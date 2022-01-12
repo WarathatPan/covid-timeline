@@ -1,5 +1,6 @@
 export default function CardTimeline(props: any) {
     const timelines = props?.timelines;
+    const handleDelete = props?.handleDelete;
     
     return (
        <div>
@@ -14,8 +15,8 @@ export default function CardTimeline(props: any) {
                     </div>
                     <div className='w-8/12 md:w-9/12 bg-light-blue p-2 mb-4'>
                         {t.information.map((ti: any, i: any) => (
-                            <div className='flex flex-row gap-4 relative' key={'timeline_information_'+i}>
-                                <span className="cursor-pointer absolute top-0 right-0 pr-2">x</span>
+                            <div className='flex flex-row gap-4 relative' key={'information_'+i}>
+                                <span className="cursor-pointer absolute top-0 right-0 pr-2" onClick={() => handleDelete(index, i)}>x</span>
                                 <div className='w-3/12 fs-yellow'>
                                     {ti.time_from} - {ti.time_to}
                                 </div>

@@ -143,7 +143,7 @@ export default function Home() {
     let visited: any = [];
     if (data?.covid) {
       const d = JSON.parse(JSON.stringify(data.covid)) || '';
-      timelines = JSON.parse(JSON.stringify(d?.timelines));
+      timelines = JSON.parse(JSON.stringify(d?.timelines)) || [];
       let check_dup = false;
       for (let i = 0; i < d?.timelines.length; i++) {
         const element = d?.timelines[i];
@@ -234,8 +234,43 @@ export default function Home() {
     }));
   };
 
-  const handleDelete = ()  => {
+  const handleDelete = (t_index, informatino_index)  => {
+    let timelines: any = JSON.parse(JSON.stringify(data?.covid?.timelines));
+    let visited: any = [];
 
+    timelines[t_index]['information'].splice(informatino_index, 1);
+    
+    if (timelines[t_index]['information'].length == 0) {
+      timelines.splice(t_index, 1);
+    }
+
+    for (let i = 0; i < timelines.length; i++) {
+      const element = timelines[i];
+      for (let j = 0; j < element.information.length; j++) {
+        delete timelines[i]['information'][j]['__typename'];
+
+        if (element?.information[j]?.location_name != '') {
+          visited = [...visited, element?.information[j]?.location_name];
+        }
+      }
+      delete timelines[i]['__typename'];
+    }
+    visited = visited.sort();
+
+    let payload: any = {
+      _id: data?.covid?._id,
+      gender: data?.covid?.gender,
+      age: data?.covid?.age,
+      occupation: data?.covid?.occupation,
+      timelines: timelines,
+      visited: visited,
+    };
+
+    updateCovid({
+      variables: payload
+    });
+
+    window.location.reload();
   };
   
   useEffect(() => {
@@ -298,7 +333,7 @@ export default function Home() {
                   <p>{data?.covid?.occupation}</p>
                 </div>
                 <div className='flex flex-col'>
-                  <CardTimeline timelines={data?.covid?.timelines}/>
+                  <CardTimeline timelines={data?.covid?.timelines} handleDelete={handleDelete}/>
                 </div>
                 <div className='w-full mt-5'>
                   <h3 className='text-xl fs-yellow'>Visited Places</h3>
