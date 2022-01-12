@@ -2,6 +2,10 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 This is a [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
+## Description
+Challenge test Covid Timelines CRUD.
+- Support One person.
+
 ## Installation
 cd frontend or backend
 ```bash
